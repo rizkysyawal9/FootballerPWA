@@ -1,0 +1,22 @@
+{
+  "name": "Footballers PWA",
+  "short_name": "FBallers",
+  "description": "PWA Application for Football Standings Website",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#4a148c",
+  "theme_color": "#4a148c",
+  "icons": [
+    {
+      "src": "icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "gcm_sender_id": "994346959178"
+}

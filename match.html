@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#4a148c" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <link rel="stylesheet" href="css/materialize.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/custom.css" />
+    <title>Footballers</title>
+  </head>
+  <body style="font-family: 'Lato', sans-serif; background-color: #111111;">
+       <!-- Navigation Bar -->
+       <div class="navbar-fixed">
+        <nav class="purple darken-4" role="navigation">
+          <div class="nav-wrapper container">
+            <a href="#home" class="brand-logo center" id="logo">Footballers</a>
+            <!-- back icon here -->
+            <a href="./">
+              <i class="material-icons"><img src="/icons/keyboard_backspace-white-24dp.svg" alt=""></i>
+            </a>
+          </div>
+        </nav>
+      </div>
+      </nav>
+    </div>
+
+    <!-- Single Match starts here -->
+    <div id="match"></div>
+
+    <!-- JS resource -->
+    <script src="js/mainApi.js"></script>
+    <script src="js/teamApi.js"></script>
+    <script src="js/scheduleApi.js"></script>
+
+    <!-- Service Worker Check -->
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function() {
+          navigator.serviceWorker
+            .register("/service-worker.js")
+            .then(function(){
+              console.log("Service worker successfully registered");
+            })
+            .catch(function(err){
+              console.log(`Register Service Worker failed with error ${err}`);
+            });
+        });
+      } else {
+        console.log("Service worker doesn't support this browser");
+      }
+      //First API Call to get details of a single match from all schedule of single team
+      document.addEventListener("DOMContentLoaded", function () {
+        getMatchById();
+      });
+    </script>
+  </body>
+</html>

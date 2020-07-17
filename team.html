@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#4a148c" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <link rel="stylesheet" href="css/materialize.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/custom.css" />
+    <title>Footballers</title>
+  </head>
+  <body style="font-family: 'Lato', sans-serif; background-color: #111111;">
+    <!-- Navigation Bar -->
+    <div class="navbar-fixed">
+      <nav class="purple darken-4" role="navigation">
+        <div class="nav-wrapper container">
+          <a href="#home" class="brand-logo center" id="logo">Footballers</a>
+          <!-- back icon here -->
+          <a href="./">
+            <i class="material-icons"
+              ><img src="/icons/keyboard_backspace-white-24dp.svg" alt=""
+            /></i>
+          </a>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Content starts here -->
+    <div class="fixed-action-btn">
+      <!-- floating save button -->
+      <a class="btn-floating btn-large purple darken-4" id="save">
+        <i class="large material-icons"
+          ><img src="/icons/bookmark-white-24dp.svg" alt=""
+        /></i>
+      </a>
+      <!-- floating delete button -->
+      <a class="btn-floating btn-large red darken-4" id="delete">
+        <i class="large material-icons"
+          ><img src="/icons/delete-white-24dp.svg" alt=""
+        /></i>
+      </a>
+      <!-- <a class="btn-floating btn-large purple darken-4"> </a> -->
+    </div>
+    <div id="team-member"></div>
+    <div id="members"></div>
+
+    <!-- JS resource -->
+    <script src="js/materialize.min.js"></script>
+    <script src="js/idb.js"></script>
+    <script src="js/db.js"></script>
+    <script src="js/mainApi.js"></script>
+    <script src="js/teamApi.js"></script>
+    <script src="js/scheduleApi.js"></script>
+    <script src="js/savedApi.js"></script>
+
+    <!-- Service Worker Check -->
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker
+            .register("/service-worker.js")
+            .then(function () {
+              console.log("Service worker successfully registered");
+            })
+            .catch(function (err) {
+              console.log(`Register Service Worker failed with error ${err}`);
+            });
+        });
+      } else {
+        console.log("Service worker doesn't support this browser");
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const isFormSaved = urlParams.get("saved");
+        const btnSave = document.querySelector("#save");
+        const btnDelete = document.querySelector("#delete");
+
+        if (isFormSaved) {
+          btnSave.style.display = "none";
+          getSavedLeagueById();
+        } else {
+          btnDelete.style.display = "none";
+          var item = getLeagueById();
+        }
+        btnSave.onclick = function () {
+          console.log("Tombol di klik");
+          item
+            .then(function (team) {
+              saveForLater(team);
+            })
+            .then(function () {
+              savedNotification();
+            });
+        };
+
+        btnDelete.onclick = function () {
+          deleteSavedLeagueById();
+          deleteNotification();
+        };
+      });
+
+      function savedNotification() {
+        const title = "Team Saved";
+        const options = {
+          body: "Selamat, Team telah di save. Silahkan cek halaman saved anda",
+          icon: "/icon-192x192.png",
+          badge: "badge.png",
+          tag: "message-group-1",
+          renotify: true
+        };
+        if (Notification.permission === "granted") {
+          navigator.serviceWorker.ready.then(function (regis) {
+            regis.showNotification(title, options);
+          });
+        } else {
+          console.error("Fitur Notifikasi tidak diizinkan");
+        }
+      }
+      function deleteNotification() {
+        const title = "Team Deleted";
+        const options = {
+          body: "Team Berhasil di delete dari halaman saved",
+          icon: "/icon-192x192.png",
+          badge: "badge.png",
+          tag: "message-group-1",
+          renotify: true
+        };
+        if (Notification.permission === "granted") {
+          navigator.serviceWorker.ready.then(function (regis) {
+            regis.showNotification(title, options);
+          });
+        } else {
+          console.error("Fitur Notifikasi tidak diizinkan");
+        }
+      }
+    </script>
+  </body>
+</html>

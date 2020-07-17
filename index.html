@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#4a148c" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <link rel="stylesheet" href="css/materialize.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/custom.css" />
+    <title>Footballers</title>
+  </head>
+  <body style="font-family: 'Lato', sans-serif; background-color: #111111;">
+    <!-- Navigation Bar -->
+    <div class="navbar-fixed">
+      <nav class="purple darken-4" role="navigation">
+        <div class="nav-wrapper container">
+          <a href="#interview" class="brand-logo" id="logo">Footballers</a>
+          <!-- hamburger icon trigger here -->
+          <a
+            href="#"
+            class="sidenav-trigger hide-on-large-only"
+            data-target="nav-mobile"
+            style="display: inline-flex; align-items: center;"
+          >
+            <img src="icons/list-white-36dp.svg" alt="Menu" style="flex: 1;" />
+          </a>
+          <!-- Mainnav Starts Here -->
+          <ul class="topnav right hide-on-med-and-down"></ul>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Sidenav content starts here -->
+    <ul
+      class="sidenav hide-on-large-only"
+      id="nav-mobile"
+      style="background-color: #212121; color: white;"
+    ></ul>
+
+    <!-- Content starts here -->
+    <div class="content"></div>
+
+    <!-- JS resource -->
+    <script src="js/materialize.min.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/idb.js"></script>
+    <script src="js/db.js"></script>
+    <script src="js/mainApi.js"></script>
+    <script src="js/teamApi.js"></script>
+    <script src="js/scheduleApi.js"></script>
+    <script src="js/savedApi.js"></script>
+
+    <!-- Service Worker Check -->
+    <script>
+      if (!("serviceWorker" in navigator)) {
+        console.log("Service worker tidak didukung di browser ini");
+      } else {
+        registerServiceWorker();
+        requestPermission();
+      }
+
+      function registerServiceWorker() {
+        return navigator.serviceWorker
+          .register("service-worker.js")
+          .then(function (registration) {
+            console.log("Registrasi Service Worker berhasil");
+            return registration;
+          })
+          .catch(function (err) {
+            console.error("Registrasi service worker gagal.", err);
+          });
+      }
+      // if ("serviceWorker" in navigator) {
+      //   window.addEventListener("load", function () {
+      //     navigator.serviceWorker
+      //       .register("/service-worker.js")
+      //       .then(function () {
+      //         console.log("Service worker successfully registered");
+      //       })
+      //       .catch(function () {
+      //         console.log(`Register Service Worker failed with error ${err}`);
+      //       });
+      //   });
+      // } else {
+      //   console.log("Service worker doesn't support this browser");
+      // }
+
+      // if ("Notification" in window) {
+      //   requestPermission();
+      // } else {
+      //   console.log("Browser ini tidak mendukung fitur push notification");
+      // }
+
+      function requestPermission() {
+        if ("Notification" in window) {
+          Notification.requestPermission().then(function (res) {
+            if (res === "denied") {
+              console.log("Fitur notifikasi tidak diizinkan");
+              return;
+            } else if (res === "default") {
+              console.error("Pengguna menutup kotak dialog permintaan");
+              return;
+            }
+            //       navigator.serviceWorker.getRegistration().then(function(reg) {
+            // reg.showNotification('Notifikasi diijinkan!');
+            if ("PushManager" in window) {
+              navigator.serviceWorker
+                .getRegistration()
+                .then(function (registration) {
+                  registration.pushManager
+                    .subscribe({
+                      userVisibleOnly: true,
+                      applicationServerKey: urlBase64toUint8Array(
+                        "BCTWuRE6M2ufeZqW7cEPnRT-bq2YNnSQSTJeokNwNOiCPv5DjycdwhsAaOyz2JrE6_7e96s2JoMjQowB20cr6yc"
+                      )
+                    })
+                    .then(function (subscribe) {
+                      console.log(
+                        "Berhasil melakukan subscribe dengan endpoint: ",
+                        subscribe.endpoint
+                      );
+                      console.log(
+                        "Berhasil melakukan subscribe dengan p256dh key: ",
+                        btoa(
+                          String.fromCharCode.apply(
+                            null,
+                            new Uint8Array(subscribe.getKey("p256dh"))
+                          )
+                        )
+                      );
+                      console.log(
+                        "Berhasil melakukan subscribe dengan auth key: ",
+                        btoa(
+                          String.fromCharCode.apply(
+                            null,
+                            new Uint8Array(subscribe.getKey("auth"))
+                          )
+                        )
+                      );
+                    })
+                    .catch(function (e) {
+                      console.log(e);
+                      console.log("Tidak dapat melakukan subscribe");
+                    });
+                });
+            }
+            function urlBase64toUint8Array(base64String) {
+              const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+              const base64 = (base64String + padding)
+                .replace(/-/g, "+")
+                .replace(/_/g, "/");
+              const rawData = window.atob(base64);
+              const outputArray = new Uint8Array(rawData.length);
+              for (let i = 0; i < rawData.length; i++) {
+                outputArray[i] = rawData.charCodeAt(i);
+              }
+              return outputArray;
+            }
+          });
+        }
+      }
+
+      //Request API for the First Time
+      document.addEventListener("DOMContentLoaded", function () {
+        getLeague();
+      });
+    </script>
+  </body>
+</html>
