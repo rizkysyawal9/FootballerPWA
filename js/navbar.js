@@ -3,8 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
   function loadSideNav() {
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
-      if (this.readyState == 4) {
-        if (this.status != 200) return;
+      if (this.readyState === 4) {
+        if (this.status !== 200) return;
         const res = xhr.responseText;
         document.querySelectorAll(".sidenav").forEach(function (elm) {
           elm.innerHTML = xhr.responseText;
@@ -29,8 +29,8 @@ document.addEventListener("DOMContentLoaded", function () {
   function loadMainNav() {
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
-      if (this.readyState == 4) {
-        if (this.status != 200) return;
+      if (this.readyState === 4) {
+        if (this.status !== 200) return;
         const res = xhr.responseText;
         document.querySelectorAll(".topnav").forEach(function (elm) {
           elm.innerHTML = xhr.responseText;
@@ -51,14 +51,14 @@ document.addEventListener("DOMContentLoaded", function () {
   function loadPage(page) {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
-      if (this.readyState == 4) {
+      if (this.readyState === 4) {
         let content = document.querySelector(".content");
         if (page === "home") {
           getLeague();
         } else if (page === "saved") {
           getSavedLeagues();
         }
-        if (this.status == 200) {
+        if (this.status === 200) {
           content.innerHTML = xhr.responseText;
         } else if (this.status == 404) {
           content.innerHTML = `<h1 class="white-text center">Sorry, this page is not found</h1>`;

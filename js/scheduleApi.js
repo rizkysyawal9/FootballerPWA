@@ -36,12 +36,8 @@ function getScheduleById() {
           }
         });
     }
-    fetch(`${base_url}/teams/${idParams}/matches`, {
-      method: "GET",
-      headers: {
-        "X-Auth-Token": api_key
-      }
-    })
+
+    fetchApi(`${base_url}/teams/${idParams}/matches`)
       .then(status)
       .then(json)
       .then(function (data) {
@@ -112,12 +108,7 @@ function getMatchById() {
         }
       });
     }
-    fetch(`${base_url}/matches/${idParams}`, {
-      method: "GET",
-      headers: {
-        "X-Auth-Token": api_key
-      }
-    })
+    fetchApi(`${base_url}/matches/${idParams}`)
       .then(status)
       .then(json)
       .then(function (data) {

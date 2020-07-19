@@ -22,6 +22,17 @@ function error(err) {
   console.log(`Error: ${err}`);
 }
 
+//Fetch Function
+function fetchApi(url) {
+  const newurl = url.toString();
+  console.log(newurl);
+  return fetch(newurl, {
+    method: "GET",
+    headers: {
+      "X-Auth-Token": "11bd3cec363a471991cf7a4be5f1d8a1"
+    }
+  });
+}
 // Get Champions League Standings (All teams) in Group A
 function getLeague() {
   //get data from cahce
@@ -68,12 +79,8 @@ function getLeague() {
       });
   }
   //  get data from server
-  fetch(`${base_url}/competitions/2001/standings`, {
-    method: "GET",
-    headers: {
-      "X-Auth-Token": api_key
-    }
-  })
+
+  fetchApi(`${base_url}/competitions/2001/standings`)
     .then(status)
     .then(json)
     .then(function (data) {

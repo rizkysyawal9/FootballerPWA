@@ -1,4 +1,4 @@
-const cache_name = "footballers-v4";
+const cache_name = "footballers-v5";
 const urlsToCache = [
   // html pages
   "/",
@@ -23,6 +23,7 @@ const urlsToCache = [
   "/js/scheduleApi.js",
   "/js/idb.js",
   "/js/db.js",
+  "/js/activateSw.js",
   // icons
   "/icons/home-white-24dp.svg",
   "/icons/info-white-24dp.svg",

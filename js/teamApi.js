@@ -44,12 +44,8 @@ function getLeagueById() {
       });
     }
     // from server
-    fetch(`${base_url}/teams/${idParams}`, {
-      method: "GET",
-      headers: {
-        "X-Auth-Token": api_key
-      }
-    })
+
+    fetchApi(`${base_url}/teams/${idParams}`)
       .then(status)
       .then(json)
       .then(function (data) {
