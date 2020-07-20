@@ -12,12 +12,22 @@ function saveForLater(team) {
       console.log("team data: ", team);
       const id = team.id;
       console.log(team.id);
-      store.add(team, id);
+      store.put(team, id);
       return tx.complete;
     })
     .then(function () {
       console.log("Anngota berhasil disimpan");
-      window.location.replace("/");
+      const sb = document.querySelector("#snackbar");
+      sb.innerHTML = "Team Saved!";
+      sb.className = "show";
+      setTimeout(function () {
+        sb.className = sb.className.replace("show", "");
+      }, 3000);
+    })
+    .then(function () {
+      setTimeout(function () {
+        window.location.replace("/");
+      }, 2000);
     });
 }
 
@@ -66,27 +76,17 @@ function deleteById(id) {
         return tx.complete;
       })
       .then(function () {
-        window.location.replace("/");
+        const sb = document.querySelector("#snackbar");
+        sb.innerHTML = "Team Deleted!";
+        sb.className = "show";
+        setTimeout(function () {
+          sb.className = sb.className.replace("show", "");
+        }, 3000);
+      })
+      .then(function () {
+        setTimeout(function () {
+          window.location.replace("/");
+        }, 2000);
       });
   });
 }
-// var dbPromised = idb.open("footballers", 1, function (upgradeDb) {
-//   var teamsObjectStore = upgradeDb.createObjectStore("teams", {
-//     keyPath: "ID"
-//   });
-//   teamsObjectStore.createIndex("team_name", "team_name", { unique: false });
-// });
-
-// function saveForLater(team) {
-//   dbPromised
-//     .then(function (db) {
-//       var tx = db.transaction("teams", "readwrite");
-//       var store = tx.objectStore("teams");
-//       console.log(team);
-//       store.add(team.result);
-//       return tx.complete;
-//     })
-//     .then(function () {
-//       console.log("Tim berhasil di simpan.");
-//     });
-// }

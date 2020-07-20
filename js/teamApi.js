@@ -5,7 +5,8 @@ function getLeagueById() {
     const idParams = urlParams.get("id");
     // from cache
     if ("caches" in window) {
-      caches.match(`${base_url}/teams/${idParams}`).then(function (res) {
+      const url = `${base_url}/teams/${idParams}`;
+      caches.match(url.toString()).then(function (res) {
         if (res) {
           res.json().then(function (data) {
             const members = data.squad;
@@ -44,12 +45,8 @@ function getLeagueById() {
       });
     }
     // from server
-    fetch(`${base_url}/teams/${idParams}`, {
-      method: "GET",
-      headers: {
-        "X-Auth-Token": api_key
-      }
-    })
+
+    fetchApi(`${base_url}/teams/${idParams}`)
       .then(status)
       .then(json)
       .then(function (data) {

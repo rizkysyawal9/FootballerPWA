@@ -2,16 +2,16 @@ function getScheduleById() {
   return new Promise(function (resolve, reject) {
     const urlParams = new URLSearchParams(window.location.search);
     const idParams = urlParams.get("id");
+    const url = `${base_url}/teams/${idParams}/matches`;
+
     if ("caches" in window) {
-      caches
-        .match(`${base_url}/teams/${idParams}/matches`)
-        .then(function (res) {
-          if (res) {
-            res.json().then(function (data) {
-              const matches = data.matches;
-              let matchesHTML = "";
-              matches.forEach(function (match) {
-                matchesHTML += `
+      caches.match(url.toString()).then(function (res) {
+        if (res) {
+          res.json().then(function (data) {
+            const matches = data.matches;
+            let matchesHTML = "";
+            matches.forEach(function (match) {
+              matchesHTML += `
                         <div class="container">
                         <div class="card grey darken-4 white-text" >
                         <div class="card-content center">
@@ -29,19 +29,15 @@ function getScheduleById() {
                         </div>
                         </div>
                     `;
-              });
-              document.querySelector("#schedule").innerHTML = matchesHTML;
-              resolve(data);
             });
-          }
-        });
+            document.querySelector("#schedule").innerHTML = matchesHTML;
+            resolve(data);
+          });
+        }
+      });
     }
-    fetch(`${base_url}/teams/${idParams}/matches`, {
-      method: "GET",
-      headers: {
-        "X-Auth-Token": api_key
-      }
-    })
+
+    fetchApi(`${base_url}/teams/${idParams}/matches`)
       .then(status)
       .then(json)
       .then(function (data) {
@@ -78,8 +74,9 @@ function getMatchById() {
   return new Promise(function (resolve, reject) {
     const urlParams = new URLSearchParams(window.location.search);
     const idParams = urlParams.get("id");
+    const url = `${base_url}/matches/${idParams}`;
     if ("caches" in window) {
-      caches.match(`${base_url}/matches/${idParams}`).then(function (res) {
+      caches.match(url.toString()).then(function (res) {
         if (res) {
           res.json().then(function (data) {
             const {
@@ -112,12 +109,7 @@ function getMatchById() {
         }
       });
     }
-    fetch(`${base_url}/matches/${idParams}`, {
-      method: "GET",
-      headers: {
-        "X-Auth-Token": api_key
-      }
-    })
+    fetchApi(`${base_url}/matches/${idParams}`)
       .then(status)
       .then(json)
       .then(function (data) {

@@ -9,3 +9,14 @@
 <div class="container">
   <div id="content" style="margin-top: 30px;"></div>
 </div>
+
+<script src="js/mainApi.js"></script>
+
+<!-- Service Worker Check -->
+<!-- <script src="js/activateSw.js"></script> -->
+<script>
+  //Request API for the First Time
+  document.addEventListener("DOMContentLoaded", function () {
+    getLeague();
+  });
+</script>
