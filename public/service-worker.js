@@ -5,50 +5,55 @@ importScripts(
 if (workbox) console.log("Workbox berhasil dimuat");
 else console.log("Workbox gagal dimuat");
 
-workbox.precaching.precacheAndRoute([
-  // html
-  { url: "/", revision: "1" },
-  { url: "/index.html", revision: "3" },
-  { url: "/team.html", revision: "3" },
-  { url: "/match.html", revision: "3" },
-  { url: "/schedule.html", revision: "3" },
-  { url: "/mainav.html", revision: "3" },
-  { url: "/sidenav.html", revision: "3" },
-  // css
-  { url: "/css/materialize.min.css", revision: "3" },
-  { url: "/css/custom.css", revision: "3" },
-  // javascript
-  { url: "/js/activateSw.js", revision: "3" },
-  { url: "/js/materialize.min.js", revision: "3" },
-  { url: "/js/navbar.js", revision: "3" },
-  { url: "/js/mainApi.js", revision: "3" },
-  { url: "/js/savedApi.js", revision: "3" },
-  { url: "/js/teamApi.js", revision: "3" },
-  { url: "/js/scheduleApi.js", revision: "3" },
-  { url: "/js/db.js", revision: "3" },
-  { url: "/js/idb.js", revision: "1" },
-  // icons
-  { url: "/icons/home-white-24dp.svg", revision: "3" },
-  { url: "/icons/info-white-24dp.svg", revision: "3" },
-  { url: "/icons/list-white-36dp.svg", revision: "3" },
-  { url: "/icons/keyboard_backspace-white-24dp.svg", revision: "3" },
-  { url: "/icons/bookmark-white-24dp.svg", revision: "3" },
-  { url: "/icons/delete-white-24dp.svg", revision: "3" },
-  // assets
-  { url: "/assets/code.jpg", revision: "3" },
-  { url: "/assets/banner.jpg", revision: "3" },
-  { url: "/assets/int-1.png", revision: "3" },
-  { url: "/assets/int-2.png", revision: "3" },
-  { url: "/assets/int-3.png", revision: "3" },
-  { url: "/assets/profile.png", revision: "3" },
-  { url: "/assets/sidenav-bg.jpg", revision: "3" },
-  { url: "/manifest.json", revision: "3" },
+workbox.precaching.precacheAndRoute(
+  [
+    // html
+    { url: "/", revision: "1" },
+    { url: "/index.html", revision: "3" },
+    { url: "/team.html", revision: "3" },
+    { url: "/match.html", revision: "3" },
+    { url: "/schedule.html", revision: "3" },
+    { url: "/mainav.html", revision: "3" },
+    { url: "/sidenav.html", revision: "3" },
+    // css
+    { url: "/css/materialize.min.css", revision: "3" },
+    { url: "/css/custom.css", revision: "3" },
+    // javascript
+    { url: "/js/activateSw.js", revision: "3" },
+    { url: "/js/materialize.min.js", revision: "3" },
+    { url: "/js/navbar.js", revision: "3" },
+    { url: "/js/mainApi.js", revision: "3" },
+    { url: "/js/savedApi.js", revision: "3" },
+    { url: "/js/teamApi.js", revision: "3" },
+    { url: "/js/scheduleApi.js", revision: "3" },
+    { url: "/js/db.js", revision: "3" },
+    { url: "/js/idb.js", revision: "1" },
+    // icons
+    { url: "/icons/home-white-24dp.svg", revision: "3" },
+    { url: "/icons/info-white-24dp.svg", revision: "3" },
+    { url: "/icons/list-white-36dp.svg", revision: "3" },
+    { url: "/icons/keyboard_backspace-white-24dp.svg", revision: "3" },
+    { url: "/icons/bookmark-white-24dp.svg", revision: "3" },
+    { url: "/icons/delete-white-24dp.svg", revision: "3" },
+    // assets
+    { url: "/assets/code.jpg", revision: "3" },
+    { url: "/assets/banner.jpg", revision: "3" },
+    { url: "/assets/int-1.png", revision: "3" },
+    { url: "/assets/int-2.png", revision: "3" },
+    { url: "/assets/int-3.png", revision: "3" },
+    { url: "/assets/profile.png", revision: "3" },
+    { url: "/assets/sidenav-bg.jpg", revision: "3" },
+    { url: "/manifest.json", revision: "3" },
 
-  // App icon
-  { url: "/icon-192x192.png", revision: "3" },
-  { url: "/icon-512x512.png", revision: "3" },
-  { url: "/badge.png", revision: "3" }
-]);
+    // App icon
+    { url: "/icon-192x192.png", revision: "3" },
+    { url: "/icon-512x512.png", revision: "3" },
+    { url: "/badge.png", revision: "3" }
+  ],
+  {
+    ignoreURLParametersMatching: [/.*/]
+  }
+);
 
 workbox.routing.registerRoute(
   new RegExp("/pages/"),
